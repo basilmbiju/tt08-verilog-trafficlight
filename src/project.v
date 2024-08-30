@@ -25,7 +25,7 @@ module tt_um_trafficlight (
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, 1'b0};
 
-    trafficlight trafficlight(
+    trafficlight_1 trafficlight_1(
         .clk(clk),
         .reset(rst_n),
         .sensor(ui_in[0]),

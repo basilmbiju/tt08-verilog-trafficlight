@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module trafficlight(
+module trafficlight_1(
     input wire clk,
     input wire reset,
     input wire sensor,

@@ -6,21 +6,21 @@ module trafficlight_1(
     output reg [1:0] light
 );
 
-
+// State definitions
 parameter RED = 2'b01;
 parameter YELLOW = 2'b10;
 parameter GREEN = 2'b11;
 
-
+// Timer settings
 parameter RED_TIME = 50;  
 parameter YELLOW_TIME = 5;  
 parameter GREEN_TIME = 50; 
 
-
+// Registers to hold state, next state, and timer
 reg [1:0] state, next_state;
 reg [31:0] timer;
 
-
+// State transition and timer logic
 always @(posedge clk or posedge reset) begin
     if (reset) begin
         state <= RED;       
@@ -36,12 +36,12 @@ always @(posedge clk or posedge reset) begin
                 default: timer <= RED_TIME; 
             endcase
         end else begin
-            timer <= timer - 1;
+            timer <= timer - 1; // Decrement timer
         end
     end
 end
 
-
+// Next state logic
 always @(*) begin
     case (state)
         RED: begin
@@ -53,11 +53,8 @@ always @(*) begin
         end
         
         GREEN: begin
-            if (!sensor) begin
-                if (timer>=2)begin
-                next_state = YELLOW;
-                timer<=0;
-                end
+            if (!sensor && timer >= 2) begin
+                next_state = YELLOW; 
             end else if (timer == 0) begin
                 next_state = YELLOW;
             end else begin
@@ -77,13 +74,13 @@ always @(*) begin
     endcase
 end
 
-
+// Output logic
 always @(posedge clk) begin
     case (state)
-        RED: light <= 2'b01;    
-        YELLOW: light <= 2'b10; 
-        GREEN: light <= 2'b11;  
-        default: light <= 2'b00; 
+        RED: light <= 2'b01;    // Red light
+        YELLOW: light <= 2'b10; // Yellow light
+        GREEN: light <= 2'b11;  // Green light
+        default: light <= 2'b00; // Off (shouldn't happen)
     endcase
 end
 
